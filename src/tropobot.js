@@ -74,8 +74,11 @@ module.exports = class TropoBot {
                         let tropoMessages = [];
 
                         responseMessages.forEach((responseCard) => {
-                            if (TropoBot.isDefined(responseCard.speech)) {
-                                tropoMessages.push({say: {value: responseCard.speech}});
+                            // non-ASCII character for double quotes needs to be converted back to double quotes
+                            let speech = responseCard.speech.replace('“', '"').replace('”', '"');
+
+                            if (TropoBot.isDefined(speech)) {
+                                tropoMessages.push({say: {value: speech}});
 
                                 // NOTE: Tropo suggested this delay between each message to guarantee SMS delivery order
                                 tropoMessages.push({wait: {milliseconds: 2500}});
